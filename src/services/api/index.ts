@@ -1,0 +1,10 @@
+export { acessosService } from './acessos.service';
+export { dispositivosService } from './dispositivos.service';
+export { entregasService } from './entregas.service';
+export { moradoresService } from './moradores.service';
+export { ocorrenciasService } from './ocorrencias.service';
+export { prestadoresService } from './prestadores.service';
+export { visitantesService } from './visitantes.service';
+export { loadDashboard } from './dashboard.service';
+export { resetDemoData } from './reset.service';
+export type { DashboardData, DashboardStats, MovimentacaoDia } from '@/types/dashboard';

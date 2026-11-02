@@ -1,0 +1,13 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+*.log
+
+# Arquivos de ferramentas locais que não fazem parte da aplicação
+.github/skills/
+.github/instructions/
+.github/workflows/release.yml

@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./components.css";
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-slate-800;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-slate-900;
+  }
+
+  ::selection {
+    @apply bg-brand-100 text-brand-900;
+  }
+}

@@ -1,0 +1,43 @@
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --color-canvas: #f6f7f9;
+
+  --color-brand-50: #eff4ff;
+  --color-brand-100: #dbe6ff;
+  --color-brand-200: #bfd3ff;
+  --color-brand-300: #93b4ff;
+  --color-brand-400: #628eff;
+  --color-brand-500: #3b6bf6;
+  --color-brand-600: #2453dd;
+  --color-brand-700: #1c41b4;
+  --color-brand-800: #1b388f;
+  --color-brand-900: #1b3270;
+  --color-brand-950: #13214a;
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-pop: 0 18px 44px -16px rgba(15, 23, 42, 0.28);
+
+  --animate-rise: rise 0.22s ease-out;
+  --animate-fade: fade 0.18s ease-out;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
