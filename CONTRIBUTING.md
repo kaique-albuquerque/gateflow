@@ -1,51 +1,53 @@
-# Como contribuir com o GateFlow
+# Contributing to GateFlow
 
-Obrigado pelo interesse no projeto. Este documento descreve o fluxo de contribuição, os padrões de código adotados e o que é verificado antes de um Pull Request ser aceito.
+**English** · [Português](CONTRIBUTING.pt.md)
 
-Antes de começar, leia o [README.md](README.md) para entender o escopo: é uma aplicação front-end de demonstração, sem backend real, com dados persistidos no LocalStorage do navegador.
+Thank you for your interest in the project. This document describes the contribution workflow, the adopted code standards and what is verified before a Pull Request is accepted.
 
-## Fluxo de contribuição
+Before you start, read the [README.md](README.md) to understand the scope: it is a front-end demonstration application, with no real backend, and data persisted in the browser's LocalStorage.
 
-A branch `main` é protegida: **push direto é recusado**. Toda alteração entra por Pull Request.
+## Contribution workflow
 
-1. Faça um **fork** do repositório clicando em *Fork* no GitHub.
-2. Clone o seu fork:
+The `main` branch is protected: **direct pushes are rejected**. Every change goes through a Pull Request.
+
+1. **Fork** the repository by clicking *Fork* on GitHub.
+2. Clone your fork:
 
    ```bash
-   git clone https://github.com/<seu-usuario>/gateflow.git
+   git clone https://github.com/<your-user>/gateflow.git
    cd gateflow
    npm install
    ```
 
-3. Crie uma branch a partir da `main`:
+3. Create a branch from `main`:
 
    ```bash
-   git switch -c feat/nome-curto-da-mudanca
+   git switch -c feat/short-change-name
    ```
 
-4. Implemente a mudança seguindo os padrões abaixo.
-5. Valide localmente (veja a seção de verificação).
-6. Envie a branch para o seu fork e abra um Pull Request para `main`.
+4. Implement the change following the standards below.
+5. Validate locally (see the verification section).
+6. Push the branch to your fork and open a Pull Request against `main`.
 
    ```bash
-   git push -u origin feat/nome-curto-da-mudanca
+   git push -u origin feat/short-change-name
    ```
 
-## Nomes de branch
+## Branch names
 
-Use um prefixo que indique a natureza da mudança:
+Use a prefix that indicates the nature of the change:
 
-| Prefixo | Uso |
+| Prefix | Use |
 | --- | --- |
-| `feat/` | funcionalidade nova |
-| `fix/` | correção de bug |
-| `refactor/` | reorganização sem mudança de comportamento |
-| `docs/` | documentação |
-| `chore/` | configuração, dependências, build |
+| `feat/` | new feature |
+| `fix/` | bug fix |
+| `refactor/` | reorganization without behavior change |
+| `docs/` | documentation |
+| `chore/` | configuration, dependencies, build |
 
 ## Commits
 
-Mensagens no padrão `tipo: descrição curta`, em português, no imperativo e sem ponto final.
+Messages follow the `type: short description` pattern, in Portuguese, in the imperative mood and without a trailing period.
 
 ```text
 feat: adiciona filtro por bloco na listagem de prestadores
@@ -53,15 +55,15 @@ fix: corrige overflow horizontal dos cards no mobile
 docs: documenta o fluxo de deploy no README
 ```
 
-Evite commits genéricos como `ajustes` ou `wip`. Se a mudança for grande, prefira vários commits pequenos e coerentes.
+Avoid generic commits such as `ajustes` or `wip`. If the change is large, prefer several small, coherent commits.
 
-## Padrões de código
+## Code standards
 
-### Limite de 150 linhas por arquivo
+### 150-line limit per file
 
-**Nenhum arquivo pode passar de 150 linhas.** É a regra central do projeto e um Pull Request que a viole é recusado. Quando um arquivo cresce, extraia um componente, um hook ou um utilitário.
+**No file may exceed 150 lines.** It is the core rule of the project and a Pull Request that violates it is rejected. When a file grows, extract a component, a hook or a utility.
 
-Para conferir o maior arquivo do projeto:
+To check the largest file in the project:
 
 ```powershell
 Get-ChildItem -Recurse -File "src" -Include *.ts,*.tsx |
@@ -70,50 +72,50 @@ Get-ChildItem -Recurse -File "src" -Include *.ts,*.tsx |
   Select-Object -First 5
 ```
 
-### Modularização obrigatória
+### Mandatory modularization
 
-O projeto segue camadas com dependência unidirecional:
+The project follows layers with unidirectional dependency:
 
 ```text
 types → constants/utils → data → services → hooks → components → pages → routes
 ```
 
-Regras práticas:
+Practical rules:
 
-- **Páginas nunca acessam o mock diretamente.** Consomem um serviço em `src/services/api`.
-- **Colunas de tabela, modais e modelos de formulário** ficam em `src/components/<dominio>/`, junto do domínio.
-- **Lógica reaproveitável** vira hook em `src/hooks` ou utilitário em `src/utils`.
-- **Formulários** usam `Modal` + `useForm`; **tabelas** usam `ResourceTable` + fábrica de colunas.
-- Componentes de UI genéricos ficam em `src/components/ui` e não conhecem regra de negócio.
+- **Pages never access the mock directly.** They consume a service in `src/services/api`.
+- **Table columns, modals and form models** live in `src/components/<domain>/`, next to the domain.
+- **Reusable logic** becomes a hook in `src/hooks` or a utility in `src/utils`.
+- **Forms** use `Modal` + `useForm`; **tables** use `ResourceTable` + a column factory.
+- Generic UI components live in `src/components/ui` and know nothing about business rules.
 
-### Estilo
+### Style
 
-- TypeScript em modo estrito. Evite `any`; prefira tipos em `src/types`.
-- Toda a interface, comentários e mensagens de erro são em **português brasileiro**.
-- Tailwind CSS v4 com os design tokens do projeto; evite cores e espaçamentos arbitrários.
-- Componentes de apresentação não fazem `fetch` nem tocam no LocalStorage.
-- Acessibilidade: todo botão de ícone precisa de `aria-label`, e formulários precisam de `label` associado.
+- TypeScript in strict mode. Avoid `any`; prefer types in `src/types`.
+- The entire interface, comments and error messages are in **Brazilian Portuguese**.
+- Tailwind CSS v4 with the project design tokens; avoid arbitrary colors and spacings.
+- Presentational components do not `fetch` or touch LocalStorage.
+- Accessibility: every icon button needs an `aria-label`, and forms need an associated `label`.
 
-## Verificação antes de abrir o Pull Request
+## Verification before opening the Pull Request
 
-Execute os três comandos e confirme que todos passam:
+Run the three commands and confirm that all of them pass:
 
 ```bash
-npm run typecheck   # TypeScript sem erros
-npm run build       # build de produção
-npm run dev         # teste manual da tela alterada
+npm run typecheck   # TypeScript with no errors
+npm run build       # production build
+npm run dev         # manual test of the changed screen
 ```
 
-Rode o build mesmo que a mudança pareça pequena: ele executa o typecheck e a copa de fallback do Pages. Pull Requests que quebram o build não serão mesclados.
+Run the build even if the change seems small: it runs the typecheck and the Pages fallback copy. Pull Requests that break the build will not be merged.
 
-## O que evitar
+## What to avoid
 
-- Reformatações amplas de arquivos que não fazem parte da sua mudança.
-- Alterações de dependências sem justificativa no Pull Request.
-- Commits que incluam `node_modules`, `dist` ou arquivos de configuração local de editor.
-- Traduzir a interface para outro idioma.
-- Adicionar biblioteca de gráficos ou de estado sem discutir antes em uma issue.
+- Broad reformatting of files that are not part of your change.
+- Dependency changes without justification in the Pull Request.
+- Commits that include `node_modules`, `dist` or local editor configuration files.
+- Translating the interface to another language.
+- Adding a charting or state library without discussing it first in an issue.
 
-## Dúvidas
+## Questions
 
-Abra uma [issue](https://github.com/kaique-albuquerque/gateflow/issues) descrevendo a dúvida ou a proposta antes de implementar algo estruturalmente novo.
+Open an [issue](https://github.com/kaique-albuquerque/gateflow/issues) describing your question or proposal before implementing something structurally new.

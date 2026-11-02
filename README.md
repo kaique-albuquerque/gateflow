@@ -1,130 +1,132 @@
-# GateFlow · Portaria Inteligente
+# GateFlow · Smart Front Desk
 
-Aplicação web para controle da operação de portaria de condomínios: visitantes, moradores, unidades, entregas, acessos, prestadores, ocorrências e dispositivos em um único painel. Interface em português brasileiro, layout desktop-first responsivo e funcionamento 100% local, sem backend externo.
+**English** · [Português](README.pt.md)
 
-**Demonstração online:** https://kaique-albuquerque.github.io/gateflow/
+Web application for managing condominium front desk operations: visitors, residents, units, deliveries, access records, vendors, incidents and devices in a single dashboard. Interface in Brazilian Portuguese, responsive desktop-first layout and 100% local operation, with no external backend.
 
-## 1. O problema
+**Live demo:** https://kaique-albuquerque.github.io/gateflow/
 
-Portarias tradicionais dependem de cadernos, planilhas e comunicação fragmentada. Isso gera identificação frágil de visitantes, histórico de movimentação incompleto, entregas sem rastreabilidade, ocorrências sem responsável e ausência de indicadores para a administração.
+## 1. The problem
 
-## 2. Objetivo da solução
+Traditional front desks rely on notebooks, spreadsheets and fragmented communication. This leads to weak visitor identification, incomplete movement history, untraceable deliveries, incidents without an owner and a lack of indicators for management.
 
-Centralizar o registro e o acompanhamento da operação da portaria em uma plataforma única, com dados consistentes, feedback claro para cada ação e visão gerencial em tempo real (calculada a partir dos dados operacionais, nunca de números fixos).
+## 2. Solution goal
 
-## 3. Funcionalidades
+Centralize the recording and tracking of front desk operations in a single platform, with consistent data, clear feedback for every action and real-time management insight (computed from operational data, never from hard-coded numbers).
 
-- **Dashboard** — indicadores de moradores, visitantes aguardando/presentes, entradas do dia, encomendas a retirar e ocorrências abertas, gráfico de movimentação de 7 dias e listas de atividade recente.
-- **Visitantes** — cadastro, edição, autorização e negação de entrada, saída registrada e filtros por status e bloco.
-- **Moradores** — CRUD completo, contato, unidade, status e histórico vinculado.
-- **Unidades** — visão em cards com moradores responsáveis e situação ocupacional.
-- **Entregas** — recebimento, notificação ao morador, retirada com identificação de quem retirou e exclusão.
-- **Acessos** — histórico de entradas e saídas, filtros por status e tipo, registro de saída e remoção.
-- **Prestadores** — serviços, empresa, janela de permanência e botões de entrada/saída.
-- **Ocorrências** — categoria, responsável e transições de status (aberta → em andamento → resolvida).
-- **Dispositivos** — inventário da portaria com simulação de conexão e queda.
-- **Configurações** — perfil de demonstração, informações do sistema, armazenamento e restauração dos dados.
+## 3. Features
 
-## 4. Tecnologias
+- **Dashboard** — resident, waiting/present visitor, daily entries, parcels awaiting pickup and open incident indicators, a 7-day movement chart and recent activity lists.
+- **Visitors** — registration, editing, entry authorization and denial, exit recording and filters by status and block.
+- **Residents** — full CRUD, contact, unit, status and linked history.
+- **Units** — card view with responsible residents and occupancy status.
+- **Deliveries** — receipt, resident notification, pickup with identification of who collected it and deletion.
+- **Access** — entry and exit history, filters by status and type, exit recording and removal.
+- **Vendors** — services, company, stay window and entry/exit buttons.
+- **Incidents** — category, owner and status transitions (open → in progress → resolved).
+- **Devices** — front desk inventory with simulated connection and disconnection.
+- **Settings** — demo profile, system information, data storage and restore.
 
-React 19, TypeScript, Vite, Tailwind CSS v4 (design tokens próprios), React Router, Lucide React para ícones e LocalStorage para persistência. O gráfico do dashboard é implementado em CSS puro, sem biblioteca adicional.
+## 4. Tech stack
 
-## 5. Arquitetura
+React 19, TypeScript, Vite, Tailwind CSS v4 (custom design tokens), React Router, Lucide React for icons and LocalStorage for persistence. The dashboard chart is implemented in pure CSS, with no additional library.
 
-Camadas com dependência unidirecional: `types` → `constants`/`utils` → `data` (massa inicial) → `services` (mock + storage) → `hooks` → `components` → `pages` → `routes`. Nenhuma página conhece o mock: ela consome um serviço com contrato em `Repository<T>`, de modo que substituir o LocalStorage por uma API REST exige implementar apenas essa interface.
+## 5. Architecture
 
-Regra de manutenção aplicada ao projeto inteiro: **nenhum arquivo ultrapassa 150 linhas**. Tabelas usam `ResourceTable` + fábricas de colunas, formulários usam `Modal` + `useForm`, e cada domínio tem seu próprio hook.
+Layers with unidirectional dependencies: `types` → `constants`/`utils` → `data` (seed data) → `services` (mock + storage) → `hooks` → `components` → `pages` → `routes`. No page knows about the mock: it consumes a service with a `Repository<T>` contract, so replacing LocalStorage with a REST API only requires implementing that interface.
 
-## 6. Estrutura de diretórios
+Maintenance rule applied to the entire project: **no file exceeds 150 lines**. Tables use `ResourceTable` + column factories, forms use `Modal` + `useForm`, and each domain has its own hook.
+
+## 6. Directory structure
 
 ```text
 src/
 ├── components/
 │   ├── layout/      sidebar, topbar, footer, shell
 │   ├── ui/          Button, Modal, DataTable, ResourceTable, Badge...
-│   ├── dashboard/   indicadores, gráfico e listas do painel
-│   └── <domínio>/   colunas de tabela, modais e modelos de formulário
-├── pages/           uma página por rota
+│   ├── dashboard/   dashboard indicators, chart and lists
+│   └── <domain>/    table columns, modals and form models
+├── pages/           one page per route
 ├── hooks/           useAsyncData, useListQuery, useServiceAction, useForm...
 ├── services/
-│   ├── api/         um serviço por domínio
-│   ├── mock/        repositório genérico e latência simulada
-│   └── storage/     acesso ao LocalStorage
-├── interfaces/      contratos (Repository)
-├── types/           tipos e modelos de formulário
-├── data/            massa demonstrativa inicial
-├── constants/       rotas, status, navegação, opções
-├── utils/           formatação, datas, busca, validadores
-├── contexts/        provider de toasts
-└── routes/          mapa de rotas
+│   ├── api/         one service per domain
+│   ├── mock/        generic repository and simulated latency
+│   └── storage/     LocalStorage access
+├── interfaces/      contracts (Repository)
+├── types/           types and form models
+├── data/            initial demo data
+├── constants/       routes, status, navigation, options
+├── utils/           formatting, dates, search, validators
+├── contexts/        toast provider
+└── routes/          route map
 ```
 
-## 7. Como executar localmente
+## 7. Running locally
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
 ```
 
-Scripts auxiliares: `npm run typecheck` (TypeScript), `npm run build` (typecheck + build de produção) e `npm run preview`.
+Auxiliary scripts: `npm run typecheck` (TypeScript), `npm run build` (typecheck + production build) and `npm run preview`.
 
-### Deploy no GitHub Pages
+### GitHub Pages deploy
 
-O deploy é automático: todo push na branch `main` dispara o workflow [.github/workflows/deploy.yml](.github/workflows/deploy.yml), que instala as dependências, gera o build e publica o conteúdo de `dist` no GitHub Pages.
+Deployment is automatic: every push to the `main` branch triggers the [.github/workflows/deploy.yml](.github/workflows/deploy.yml) workflow, which installs dependencies, produces the build and publishes the contents of `dist` to GitHub Pages.
 
-O projeto é servido em um subdiretório (`/gateflow/`), então duas configurações são obrigatórias e já estão aplicadas:
+The project is served from a subdirectory (`/gateflow/`), so two settings are mandatory and already applied:
 
-- `base: '/gateflow/'` em [vite.config.ts](vite.config.ts), ativado apenas quando `GITHUB_ACTIONS` está definido.
-- `basename` no `BrowserRouter` em [src/App.tsx](src/App.tsx), derivado de `import.meta.env.BASE_URL`, para que as rotas funcionem sob o subdiretório.
+- `base: '/gateflow/'` in [vite.config.ts](vite.config.ts), enabled only when `GITHUB_ACTIONS` is defined.
+- `basename` on the `BrowserRouter` in [src/App.tsx](src/App.tsx), derived from `import.meta.env.BASE_URL`, so routes work under the subdirectory.
 
-Como o GitHub Pages não reescreve rotas de SPA, o script [scripts/copy-fallback.mjs](scripts/copy-fallback.mjs) copia `dist/index.html` para `dist/404.html` no fim do build, permitindo abrir links profundos diretamente.
+Since GitHub Pages does not rewrite SPA routes, the [scripts/copy-fallback.mjs](scripts/copy-fallback.mjs) script copies `dist/index.html` to `dist/404.html` at the end of the build, allowing deep links to be opened directly.
 
-## 8. Como funciona o backend simulado
+## 8. How the simulated backend works
 
-Cada domínio expõe um serviço (`services/api/*.service.ts`) que delega a um repositório genérico. O repositório simula latência discreta com Promises, persiste no LocalStorage e recria a massa inicial quando a chave não existe. A interface sempre recebe dados assíncronos, exatamente como receberia de uma API real.
+Each domain exposes a service (`services/api/*.service.ts`) that delegates to a generic repository. The repository simulates discrete latency with Promises, persists to LocalStorage and recreates the seed data when the key does not exist. The interface always receives asynchronous data, exactly as it would from a real API.
 
-## 9. Como os dados são armazenados
+## 9. How data is stored
 
-Uma chave por coleção, no formato `gateflow:v1:<colecao>`, contendo JSON. A escrita é feita após cada operação de criação, edição ou exclusão, garantindo que recarregar a página preserve o estado.
+One key per collection, in the `gateflow:v1:<collection>` format, containing JSON. Writes happen after every create, update or delete operation, ensuring that reloading the page preserves the state.
 
-## 10. Como restaurar os dados de demonstração
+## 10. How to restore the demo data
 
-Acesse **Configurações → Dados de demonstração → Restaurar dados**. A ação pede confirmação, remove as chaves persistidas e recarrega a aplicação com a massa inicial. Também é possível limpar o LocalStorage do site pelas ferramentas do navegador.
+Go to **Settings → Demo data → Restore data**. The action asks for confirmation, removes the persisted keys and reloads the application with the seed data. You can also clear the site's LocalStorage through the browser tools.
 
-## 11. Limitações da versão demonstrativa
+## 11. Limitations of the demo version
 
-Não há autenticação real, multiusuário, controle de permissões nem sincronização entre dispositivos. Os dados vivem apenas no navegador atual. Não existe comunicação com equipamentos físicos: os botões de dispositivos apenas simulam mudança de status.
+There is no real authentication, multi-user support, permission control or cross-device synchronization. Data lives only in the current browser. There is no communication with physical equipment: the device buttons only simulate a status change.
 
-## 12. O que seria necessário para produção
+## 12. What production would require
 
-- **API REST** com contratos versionados e validação de entrada no servidor.
-- **Banco relacional** (PostgreSQL) com migrações, índices e integridade referencial.
-- **Autenticação** com sessão/JWT, perfis (administração, portaria, morador) e autorização por recurso.
-- **Logs e auditoria** de cada movimentação, com autor, data e origem.
-- **Comunicação segura** entre dispositivos e servidor (TLS, mTLS para hardware, filas para eventos offline).
-- **Infraestrutura** com containers, CI/CD, ambientes separados e observabilidade.
-- **Backup** automatizado com teste de restauração.
-- **LGPD**: base legal, minimização, retenção definida, criptografia de dados pessoais e trilha de consentimento.
-- **Monitoramento** de disponibilidade, erros e métricas de operação.
+- **REST API** with versioned contracts and server-side input validation.
+- **Relational database** (PostgreSQL) with migrations, indexes and referential integrity.
+- **Authentication** with session/JWT, profiles (administration, front desk, resident) and per-resource authorization.
+- **Logs and auditing** for every movement, with author, timestamp and origin.
+- **Secure communication** between devices and server (TLS, mTLS for hardware, queues for offline events).
+- **Infrastructure** with containers, CI/CD, separate environments and observability.
+- **Backup** automated with restore testing.
+- **LGPD** (Brazilian data protection law): legal basis, minimization, defined retention, encryption of personal data and consent trail.
+- **Monitoring** of availability, errors and operational metrics.
 
-## 13. Integração com equipamentos reais
+## 13. Integration with real hardware
 
-A integração depende de SDK, API ou protocolo fornecido pelo fabricante — não basta o modelo do equipamento. Podem ser avaliados: controladoras de acesso e leitores de QR Code (Intelbras e similares), fechaduras eletrônicas, câmeras IP (RTSP/ONVIF) e interfonia (SIP). Uma implantação real exige validação de compatibilidade, testes de segurança e rede adequada. **Nenhuma integração real está implementada neste projeto.**
+Integration depends on an SDK, API or protocol provided by the manufacturer — the equipment model alone is not enough. Access controllers and QR Code readers (Intelbras and similar), electronic locks, IP cameras (RTSP/ONVIF) and intercom systems (SIP) can be evaluated. A real deployment requires compatibility validation, security testing and an adequate network. **No real integration is implemented in this project.**
 
-## 14. Roadmap de melhorias
+## 14. Improvement roadmap
 
-- Autenticação e perfis de acesso.
-- Aprovação de visitantes pelo morador (web/app).
-- Notificações de entrega por e-mail ou WhatsApp.
-- Relatórios exportáveis e filtros por período.
-- Upload de foto do visitante e pré-autorização com QR Code.
-- Testes automatizados de componentes e de serviços.
-- Tema escuro e internacionalização.
+- Authentication and access profiles.
+- Resident approval of visitors (web/app).
+- Delivery notifications via e-mail or WhatsApp.
+- Exportable reports and filters by period.
+- Visitor photo upload and pre-authorization with QR Code.
+- Automated component and service tests.
+- Dark theme and internationalization.
 
-## 15. Como contribuir
+## 15. Contributing
 
-A branch `main` é protegida: toda alteração entra por Pull Request, inclusive vindas de forks. O passo a passo completo, os padrões de código obrigatórios (limite de 150 linhas por arquivo e modularização por camadas) e a checklist de verificação estão em [CONTRIBUTING.md](CONTRIBUTING.md).
+The `main` branch is protected: every change goes through a Pull Request, including those coming from forks. The complete step-by-step guide, the mandatory code standards (150-line limit per file and layered modularization) and the verification checklist are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## 16. Observações finais
+## 16. Final notes
 
-Todo o conteúdo do painel é derivado da massa demonstrativa em [src/data](src/data). A operação é inteiramente local: o projeto roda sem servidor, banco de dados ou serviço externo.
+All dashboard content is derived from the demo data in [src/data](src/data). Operation is entirely local: the project runs without a server, database or external service.
