@@ -2,6 +2,8 @@
 
 Aplicação web para controle da operação de portaria de condomínios: visitantes, moradores, unidades, entregas, acessos, prestadores, ocorrências e dispositivos em um único painel. Interface em português brasileiro, layout desktop-first responsivo e funcionamento 100% local, sem backend externo.
 
+**Demonstração online:** https://kaique-albuquerque.github.io/gateflow/
+
 ## 1. O problema
 
 Portarias tradicionais dependem de cadernos, planilhas e comunicação fragmentada. Isso gera identificação frágil de visitantes, histórico de movimentação incompleto, entregas sem rastreabilidade, ocorrências sem responsável e ausência de indicadores para a administração.
@@ -65,6 +67,17 @@ npm run dev      # http://localhost:5173
 ```
 
 Scripts auxiliares: `npm run typecheck` (TypeScript), `npm run build` (typecheck + build de produção) e `npm run preview`.
+
+### Deploy no GitHub Pages
+
+O deploy é automático: todo push na branch `main` dispara o workflow [.github/workflows/deploy.yml](.github/workflows/deploy.yml), que instala as dependências, gera o build e publica o conteúdo de `dist` no GitHub Pages.
+
+O projeto é servido em um subdiretório (`/gateflow/`), então duas configurações são obrigatórias e já estão aplicadas:
+
+- `base: '/gateflow/'` em [vite.config.ts](vite.config.ts), ativado apenas quando `GITHUB_ACTIONS` está definido.
+- `basename` no `BrowserRouter` em [src/App.tsx](src/App.tsx), derivado de `import.meta.env.BASE_URL`, para que as rotas funcionem sob o subdiretório.
+
+Como o GitHub Pages não reescreve rotas de SPA, o script [scripts/copy-fallback.mjs](scripts/copy-fallback.mjs) copia `dist/index.html` para `dist/404.html` no fim do build, permitindo abrir links profundos diretamente.
 
 ## 8. Como funciona o backend simulado
 
