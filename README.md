@@ -128,3 +128,4 @@ A branch `main` é protegida: toda alteração entra por Pull Request, inclusive
 ## 16. Observações finais
 
 Todo o conteúdo do painel é derivado da massa demonstrativa em [src/data](src/data). A operação é inteiramente local: o projeto roda sem servidor, banco de dados ou serviço externo.
+<!-- teste de fluxo -->
