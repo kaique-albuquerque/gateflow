@@ -121,6 +121,10 @@ A integração depende de SDK, API ou protocolo fornecido pelo fabricante — n�
 - Testes automatizados de componentes e de serviços.
 - Tema escuro e internacionalização.
 
-## 15. Observações finais
+## 15. Como contribuir
+
+A branch `main` é protegida: toda alteração entra por Pull Request, inclusive vindas de forks. O passo a passo completo, os padrões de código obrigatórios (limite de 150 linhas por arquivo e modularização por camadas) e a checklist de verificação estão em [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 16. Observações finais
 
 Todo o conteúdo do painel é derivado da massa demonstrativa em [src/data](src/data). A operação é inteiramente local: o projeto roda sem servidor, banco de dados ou serviço externo.
